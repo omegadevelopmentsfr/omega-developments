@@ -772,10 +772,12 @@ section {
     height: 300px;
 }
 
-.project-logo-img {
-    max-width: 70%;
-    max-height: 70%;
-    object-fit: contain;
+.project-card .project-logo-img {
+    max-width: 70% !important;
+    max-height: 70% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
     transition: transform var(--transition-normal);
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
 }

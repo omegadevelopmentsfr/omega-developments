@@ -295,63 +295,31 @@ function initRevealAnimations() {
 
 function initContactForm() {
     var contactForm = document.getElementById('contactForm');
+    var hiddenIframe = document.getElementById('hidden_iframe');
 
-    if (!contactForm) return;
+    if (!contactForm || !hiddenIframe) return;
 
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        console.log('Formulaire soumis');
-
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var message = document.getElementById('message').value;
-
+    contactForm.addEventListener('submit', function () {
         var btn = contactForm.querySelector('button[type="submit"]');
-        if (!btn) {
-            console.error('Bouton de soumission introuvable');
-            return;
+        if (btn) {
+            btn.innerHTML = '<span>Envoi en cours...</span>';
+            btn.disabled = true;
         }
+    });
 
-        var originalText = btn.innerHTML;
-        btn.innerHTML = '<span>Envoi en cours...</span>';
-        btn.disabled = true;
+    hiddenIframe.addEventListener('load', function () {
+        var btn = contactForm.querySelector('button[type="submit"]');
+        if (btn && btn.disabled) {
+            btn.innerHTML = '<span>Message envoyé !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+            btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+            contactForm.reset();
 
-        fetch("https://formsubmit.co/ajax/omegadevelopmentsfr@gmail.com", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                message: message,
-                _captcha: "false",
-                _template: "table"
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Réponse reçue:', data);
-                if (data.success === "false") {
-                    throw new Error("Erreur d'envoi");
-                }
-                btn.innerHTML = '<span>Message envoyé !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
-                btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-                contactForm.reset();
-
-                setTimeout(function () {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                    btn.disabled = false;
-                }, 5000);
-            })
-            .catch(error => {
-                console.error('Erreur fetch:', error);
-                alert("Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement par email.");
-                btn.innerHTML = originalText;
+            setTimeout(function () {
+                btn.innerHTML = '<span>Envoyer le message</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>';
+                btn.style.background = '';
                 btn.disabled = false;
-            });
+            }, 5000);
+        }
     });
 }
 

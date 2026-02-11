@@ -369,7 +369,13 @@
                     </div>
                 </div>
             </div>
-            <form class="contact-form" id="contactForm">
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+            <form class="contact-form" id="contactForm" action="https://formsubmit.co/omegadevelopmentsfr@gmail.com"
+                method="POST" target="hidden_iframe">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://omegadevelopmentsfr.dpdns.org/">
+                <input type="hidden" name="_subject" value="Nouveau message depuis le site Omega Developments">
+                <input type="hidden" name="_template" value="table">
                 <div class="form-group">
                     <input type="text" id="name" name="name" required>
                     <label for="name">Votre nom</label>

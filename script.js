@@ -296,17 +296,32 @@ function initRevealAnimations() {
 function initContactForm() {
     var contactForm = document.getElementById('contactForm');
 
+    if (!contactForm) return;
+
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
+
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+
+        var subject = "Contact depuis le site Omega Developments: " + name;
+        var body = "Nom: " + name + "\nEmail: " + email + "\n\nMessage:\n" + message;
+
+        var mailtoLink = "mailto:omegadevelopmentsfr@gmail.com" +
+            "?subject=" + encodeURIComponent(subject) +
+            "&body=" + encodeURIComponent(body);
 
         var btn = contactForm.querySelector('button[type="submit"]');
         var originalText = btn.innerHTML;
 
-        btn.innerHTML = '<span>Envoi en cours...</span>';
+        btn.innerHTML = '<span>Ouverture de la messagerie...</span>';
         btn.disabled = true;
 
+        window.location.href = mailtoLink;
+
         setTimeout(function () {
-            btn.innerHTML = '<span>Message envoyé !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+            btn.innerHTML = '<span>Message prêt à l\'envoi !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
             btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
 
             contactForm.reset();
@@ -315,7 +330,7 @@ function initContactForm() {
                 btn.innerHTML = originalText;
                 btn.style.background = '';
                 btn.disabled = false;
-            }, 3000);
+            }, 5000);
         }, 1500);
     });
 }

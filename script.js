@@ -325,7 +325,9 @@ function initContactForm() {
             body: JSON.stringify({
                 name: name,
                 email: email,
-                message: message
+                message: message,
+                _captcha: "false",
+                _template: "table"
             })
         })
             .then(response => response.json())

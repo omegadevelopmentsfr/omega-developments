@@ -295,31 +295,48 @@ function initRevealAnimations() {
 
 function initContactForm() {
     var contactForm = document.getElementById('contactForm');
-    var hiddenIframe = document.getElementById('hidden_iframe');
 
-    if (!contactForm || !hiddenIframe) return;
+    if (!contactForm) return;
 
-    contactForm.addEventListener('submit', function () {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
         var btn = contactForm.querySelector('button[type="submit"]');
-        if (btn) {
-            btn.innerHTML = '<span>Envoi en cours...</span>';
-            btn.disabled = true;
-        }
-    });
+        var originalText = btn.innerHTML;
 
-    hiddenIframe.addEventListener('load', function () {
-        var btn = contactForm.querySelector('button[type="submit"]');
-        if (btn && btn.disabled) {
-            btn.innerHTML = '<span>Message envoyé !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
-            btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-            contactForm.reset();
+        btn.innerHTML = '<span>Envoi en cours...</span>';
+        btn.disabled = true;
 
-            setTimeout(function () {
-                btn.innerHTML = '<span>Envoyer le message</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>';
-                btn.style.background = '';
+        var formData = new FormData(contactForm);
+
+        fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.success) {
+                    btn.innerHTML = '<span>Message envoyé !</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+                    btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                    contactForm.reset();
+
+                    setTimeout(function () {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 5000);
+                } else {
+                    throw new Error(data.message || "Erreur inconnue");
+                }
+            })
+            .catch(function (error) {
+                console.error('Erreur:', error);
+                alert("Une erreur est survenue. Veuillez réessayer.");
+                btn.innerHTML = originalText;
                 btn.disabled = false;
-            }, 5000);
-        }
+            });
     });
 }
 

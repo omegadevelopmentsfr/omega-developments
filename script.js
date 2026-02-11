@@ -300,14 +300,19 @@ function initContactForm() {
 
     contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        console.log('Formulaire soumis');
 
         var name = document.getElementById('name').value;
         var email = document.getElementById('email').value;
         var message = document.getElementById('message').value;
 
         var btn = contactForm.querySelector('button[type="submit"]');
-        var originalText = btn.innerHTML;
+        if (!btn) {
+            console.error('Bouton de soumission introuvable');
+            return;
+        }
 
+        var originalText = btn.innerHTML;
         btn.innerHTML = '<span>Envoi en cours...</span>';
         btn.disabled = true;
 
@@ -325,6 +330,7 @@ function initContactForm() {
         })
             .then(response => response.json())
             .then(data => {
+                console.log('Réponse reçue:', data);
                 if (data.success === "false") {
                     throw new Error("Erreur d'envoi");
                 }
@@ -339,7 +345,7 @@ function initContactForm() {
                 }, 5000);
             })
             .catch(error => {
-                console.error(error);
+                console.error('Erreur fetch:', error);
                 alert("Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement par email.");
                 btn.innerHTML = originalText;
                 btn.disabled = false;

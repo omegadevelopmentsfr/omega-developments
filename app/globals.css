@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f6;
+  --bg-tertiary: #ececf0;
+  --surface: rgba(10, 10, 15, 0.035);
+  --surface-strong: rgba(10, 10, 15, 0.07);
+  --border: rgba(10, 10, 15, 0.1);
+  --text-primary: #0a0a0f;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+  --accent-primary: #7c3aed;
+  --accent-magenta: #db2777;
+  --accent-cyan: #0891b2;
+  --accent-success: #16a34a;
+  /* Exact gradient endpoints sampled from the Omega logo (top -> bottom). */
+  --brand-gradient-start: #36cdd9;
+  --brand-gradient-end: #e129da;
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-border-subtle: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-magenta: var(--accent-magenta);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-success: var(--accent-success);
+  --color-brand-gradient-start: var(--brand-gradient-start);
+  --color-brand-gradient-end: var(--brand-gradient-end);
+  --font-sans: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-primary);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    linear-gradient(145deg, rgba(124, 58, 237, 0.08), transparent 36%),
+    linear-gradient(35deg, rgba(8, 145, 178, 0.06), transparent 42%),
+    var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(10, 10, 15, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 15, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 74%);
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.22);
+  color: var(--text-primary);
+}
+
+a,
+button,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .site-container {
+    width: min(100% - 32px, 1180px);
+    margin-inline: auto;
+  }
+
+  .section-shell {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(76px, 10vw, 132px);
+  }
+
+  .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.08);
+    color: #6d28d9;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 8px 12px;
+  }
+
+  .section-title {
+    color: var(--text-primary);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 760;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .muted-copy {
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    line-height: 1.8;
+  }
+
+  .surface-panel {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(10, 10, 15, 0.025), rgba(10, 10, 15, 0.005));
+    box-shadow: 0 20px 60px rgba(10, 10, 15, 0.07);
+  }
+
+  .text-gradient {
+    background: linear-gradient(120deg, #18181b, #7c3aed 42%, #0891b2 78%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

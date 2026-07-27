@@ -134,5 +134,15 @@ export const projects: ProjectItem[] = [
     alt: "Logo structra",
     href: "https://antongdream-arch.github.io/Convertisseur-d-arborescence-en-pdf/",
     tone: "violet"
+  },
+  {
+    title: "ScrollBreaker",
+    category: "Android App",
+    description: "ScrollBreaker est une application Android conçue pour atténuer l'usage compulsif du mobile en remplaçant le « doomscrolling » sur les réseaux sociaux par des périodes d'apprentissage.",
+    tech: ["Kotlin"],
+    image: "/images/ScrollBreaker_logo.png",
+    alt: "Logo scrollbreaker",
+    href: "https://github.com/omegadevelopmentsfr/ScrollBreaker",
+    tone: "cyan"
   }
 ];
